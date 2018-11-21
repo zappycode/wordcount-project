@@ -2,27 +2,29 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import operator
 
-def homepage(request):
+def home_page(request):
     return render(request, 'home.html')
 
 def about(request):
     return render(request, 'about.html')
 
 def count(request):
-    fulltext = request.GET['fulltext']
-
-    wordlist = fulltext.split()
-
-    worddictionary = {}
-
-    for word in wordlist:
-        if word in worddictionary:
-            #Increase
-            worddictionary[word] += 1
+    full_text = request.GET['fulltext']
+    # Split given text with space as separator.
+    word_splitted = full_text.split()
+    # Empty dict for adding words as keys and counts as value.
+    word_dict = {}
+    for word in word_splitted:
+        if word in word_dict:
+            # Increase the number
+            word_dict[word] += 1
         else:
-            #add to the dictionary
-            worddictionary[word] = 1
-
-    sortedwords = sorted(worddictionary.items(), key=operator.itemgetter(1), reverse=True)
-
-    return render(request, 'count.html',{'fulltext':fulltext,'count':len(wordlist),'sortedwords':sortedwords})
+            # Add to the dictionary
+            word_dict[word] = 1
+    # Getting list of tuples [(key, value)...]
+    word_list = word_dict.items()
+    # Sort word_list based on count value.
+    sorted(word_list, key=operator.itemgetter(1), reverse=True)
+    return render(request, 'count.html', {'full_text': full_text, 
+                                          'count': len(word_splitted),
+                                          'word_dict': word_list})

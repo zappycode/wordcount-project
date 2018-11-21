@@ -3,15 +3,10 @@
 <a href="{% url 'home' %}">Start Again</a>
 
 <h1>Your Text:</h1>
-{{ fulltext }}
+{{ full_text }}
 
-<h1>Word Count:</h1>
-
-{% for word, counttotal in sortedwords %}
-
-{{ word }} - {{ counttotal }}
-<br />
-
-
+<h1>Word Dict:</h1>
+{% for word, count_total in word_dict %}
+{{ word }} - {{ count_total }}
 
 {% endfor %}
